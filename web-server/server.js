@@ -25,6 +25,9 @@ app.get('/events', (req, res) => {
 app.get('/', (req, res) => {
   res.send('Hello, web!');
 });   
+app.get("/about", (req, res) => {
+  res.render("about", { title: "About" });
+});
 app.get('/projects', (req, res) => {
   const tag = req.query.tag;
    if (tag) {
