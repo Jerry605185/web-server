@@ -1,5 +1,10 @@
 import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = 3000;
 const projects = [
@@ -7,9 +12,19 @@ const projects = [
   { name: 'Portfolio site', tag: 'express' },
   { name: 'Budget tracker', tag: 'python' },
 ];
+const events = [
+  { title: 'Career fair' },
+  { title: 'Hackathon kickoff' },
+];
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+app.get('/events', (req, res) => {
+  res.render('entries', { events });
+});
 app.get('/', (req, res) => {
   res.send('Hello, web!');
-});
+});   
 app.get('/projects', (req, res) => {
   const tag = req.query.tag;
    if (tag) {
