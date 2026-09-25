@@ -6,6 +6,20 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
+app.use(express.json());
+
+const wishlist = [];
+
+app.post('/wishlist', (req, res) => {
+  const { item, note } = req.body;
+  // your decision goes here
+  if (!item) {
+    return res.status(400).json({ error: 'Item is required' });
+  }
+  const newItem = { item, note };
+  wishlist.push(newItem);
+  res.status(201).json(newItem);
+});
 const PORT = 3000;
 const projects = [
   { name: 'Weather app', tag: 'javascript' },
@@ -28,6 +42,7 @@ app.get('/', (req, res) => {
 app.get("/about", (req, res) => {
   res.render("about", { title: "About" });
 });
+
 app.get('/projects', (req, res) => {
   const tag = req.query.tag;
    if (tag) {
@@ -37,6 +52,7 @@ app.get('/projects', (req, res) => {
 
   res.json(projects);
 });
+
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
